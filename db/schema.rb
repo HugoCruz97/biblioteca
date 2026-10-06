@@ -10,40 +10,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 0) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_26_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "tb_books", id: :integer, default: nil, force: :cascade do |t|
-    t.text "author", null: false
-    t.integer "code", null: false
-    t.date "created_at", default: -> { "CURRENT_DATE" }, null: false
-    t.text "description", null: false
-    t.boolean "is_rent", default: false
-    t.text "publisher", null: false
-    t.integer "quantity", null: false
-    t.integer "rented_by"
-    t.text "title", null: false
-    t.date "updated_at", default: -> { "CURRENT_DATE" }, null: false
+  create_table "tb_books", force: :cascade do |t|
+    t.string "author", null: false
+    t.string "code", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "publisher", null: false
+    t.integer "quantity", default: 1, null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_tb_books_on_code", unique: true
+    t.check_constraint "quantity >= 0", name: "tb_books_quantity_non_negative"
   end
 
-  create_table "tb_rents", id: :integer, default: nil, force: :cascade do |t|
-    t.integer "book_id", null: false
-    t.date "created_at", default: -> { "CURRENT_DATE" }, null: false
+  create_table "tb_rents", force: :cascade do |t|
+    t.bigint "book_id", null: false
+    t.datetime "created_at", null: false
     t.integer "delay_time", default: 0, null: false
-    t.boolean "is_late", default: false, null: false
+    t.date "due_on", null: false
     t.integer "rent_time", null: false
-    t.integer "student_id", null: false
+    t.datetime "returned_at"
+    t.bigint "student_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_tb_rents_on_book_id"
+    t.index ["returned_at"], name: "index_tb_rents_on_returned_at"
+    t.index ["student_id"], name: "index_tb_rents_on_student_id"
+    t.check_constraint "rent_time > 0", name: "tb_rents_rent_time_positive"
   end
 
-  create_table "tb_students", id: :integer, default: nil, force: :cascade do |t|
-    t.text "class", null: false
-    t.date "created_at", default: -> { "CURRENT_DATE" }, null: false
-    t.text "name", null: false
-    t.date "updated_at", default: -> { "CURRENT_DATE" }, null: false
+  create_table "tb_students", force: :cascade do |t|
+    t.string "classroom", null: false
+    t.string "code", null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_tb_students_on_code", unique: true
   end
 
-  add_foreign_key "tb_books", "tb_students", column: "rented_by", name: "FK_BOOK_STUDENT", validate: false
-  add_foreign_key "tb_rents", "tb_books", column: "book_id", name: "FK_RENT_BOOK_ID", validate: false
-  add_foreign_key "tb_rents", "tb_students", column: "student_id", name: "FK_RENT_STUDENT_ID", validate: false
+  add_foreign_key "tb_rents", "tb_books", column: "book_id"
+  add_foreign_key "tb_rents", "tb_students", column: "student_id"
 end

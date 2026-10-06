@@ -1,0 +1,40 @@
+pt-BR:
+  errors:
+    record: "Registro"
+    not_found: "%{model} não encontrado"
+  activerecord:
+    models:
+      book: "Livro"
+      student: "Aluno"
+      rent: "Empréstimo"
+    attributes:
+      book:
+        code: "Código"
+        title: "Título"
+        author: "Autor"
+        publisher: "Editora"
+        description: "Descrição"
+        quantity: "Quantidade"
+        rents: "empréstimos"
+      student:
+        name: "Nome"
+        classroom: "Turma"
+        code: "Matrícula"
+        rents: "empréstimos"
+      rent:
+        book: "Livro"
+        student: "Aluno"
+        rent_time: "Prazo (dias)"
+    errors:
+      models:
+        book:
+          attributes:
+            quantity:
+              less_than_open_rents: "não pode ser menor que os %{count} exemplares emprestados"
+        rent:
+          attributes:
+            book:
+              unavailable: "não tem exemplares disponíveis"
+              already_rented_by_student: "já está emprestado para este aluno"
+            base:
+              already_returned: "Este empréstimo já foi devolvido"
