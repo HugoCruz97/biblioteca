@@ -10,6 +10,10 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
+    ignore:
+      # Keep the Node types on the same major as the runtime (Node 24 in CI and Docker)
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
     groups:
       # One PR for routine minor/patch bumps instead of one per package
       minor-and-patch:
