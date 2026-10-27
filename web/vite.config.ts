@@ -33,5 +33,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
     css: false,
+    // Same zone as the users, so date handling is tested where off-by-one-day bugs show up
+    env: { TZ: 'America/Sao_Paulo' },
   },
 })

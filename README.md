@@ -62,7 +62,7 @@ Cada app tem seu próprio workflow no GitHub Actions, disparado só quando a pas
 
 | Workflow | Verificações |
 |---|---|
-| [API](.github/workflows/api.yml) | Testes (Minitest + PostgreSQL), RuboCop, Brakeman, bundler-audit |
+| [API](.github/workflows/api.yml) | Testes (RSpec + FactoryBot + PostgreSQL), RuboCop, Brakeman, bundler-audit |
 | [Web](.github/workflows/web.yml) | Oxlint, checagem de tipos, testes (Vitest + Testing Library), build |
 
 O Dependabot acompanha gems, pacotes npm e GitHub Actions.

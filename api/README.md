@@ -124,7 +124,7 @@ Comandos úteis:
 ```bash
 docker compose exec api bin/rails console
 docker compose exec api bin/rails db:seed:replant   # recria os dados de exemplo
-docker compose run --rm -e RAILS_ENV=test api bin/rails test
+docker compose run --rm -e RAILS_ENV=test api sh -c "bin/rails db:prepare && bundle exec rspec"
 ```
 
 ### Variáveis de ambiente
@@ -138,7 +138,7 @@ docker compose run --rm -e RAILS_ENV=test api bin/rails test
 
 ## Testes e qualidade
 
-30 testes de model e de integração cobrem as regras de negócio e todos os endpoints. A cada push e pull request, o GitHub Actions roda:
+74 specs em RSpec (models e requests, com dados do FactoryBot) cobrem as regras de negócio e todos os endpoints. A cada push e pull request, o GitHub Actions roda:
 
 - **Testes** contra um PostgreSQL 17
 - **Brakeman:** análise estática de segurança

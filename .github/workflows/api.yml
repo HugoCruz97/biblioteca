@@ -76,4 +76,4 @@ jobs:
         env:
           RAILS_ENV: test
           DB_HOST: localhost
-        run: bin/rails db:test:prepare test
+        run: bin/rails db:test:prepare && bundle exec rspec
